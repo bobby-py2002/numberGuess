@@ -1,23 +1,23 @@
 import random
 import math
-
+def user_input():
+    global interval
+    interval=input("Enter Range[a,b]:\n").split()
+    for i in range(len(interval)):
+        interval[i]=int(interval[i])
+    
+   
 def rand_num():
     global mul
     global prob
     global x,y
-    mul=random.randint(1,3)
-    prob=random.randint(4,10)
-    y=random.randint(1,10**mul)
-    x=y
-    if mul>=2:
-        if prob <=5:
-            pass
-        else:
-            x=random.randint(int(0.4*(10**mul)),10**mul)
-    else:
-        pass
+    #mul=random.randint(1,3)
+    #prob=random.randint(4,10)
+    x=random.randint(interval[0],interval[1])
+   # x=y
+    
 def min_guess():
-    return int(math.log(10**mul,1.4))
+    return int(math.log(interval[1]-interval[0]+1,1.7))
 def is_equal(num):
     if num==x:
         return 0
@@ -27,22 +27,23 @@ def is_equal(num):
         return -1 
 
 def game():
+    user_input()
     rand_num()
     count=0
     print(f"You have {min_guess()} chances to guess")
     while(True):
-        num=int(input(f"Enter guessed number between[{1,10**mul}]:\n"))
+        num=int(input(f"Enter guessed number between[{interval[0],interval[1]}:\n"))
         count+=1
-        print(f"\nyou have {min_guess()-count} chances left")
         if is_equal(num)==0:
             print("\nPrecise!")
             print("You Guessed in",count,"times")
             break
         if(count==min_guess()):
-            print("\nGame Over!")
+            print("\nGame Over!\nNumber was:",x)
             break
         if is_equal(num)==1:
             print("\nHot!")
         if is_equal(num)==-1:
             print("\nCold!")
+        print(f"\nyou have {min_guess()-count} chances left")
 game()
